@@ -3,11 +3,11 @@ name: IPQ60XX-WIFI(EMMC)
 on:
   workflow_dispatch:
     inputs:
-    debug_enabled:
-      type: boolean
-      description: 'Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'
-      required: false
-      default: false
+      debug_enabled:
+        type: boolean
+        description: 'Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'
+        required: true
+        default: false
 #  schedule:
 #    - cron: 0 19 * * *
 
@@ -123,7 +123,7 @@ jobs:
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
-    - name: Setup tmate session
+    - name: Setup tmate session(可选调试)
       uses: mxschmitt/action-tmate@v3
       if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
 
