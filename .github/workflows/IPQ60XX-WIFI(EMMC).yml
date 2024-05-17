@@ -5,8 +5,8 @@ on:
     inputs:
       debug_enabled:
         type: boolean
-        description: 'Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'
-        required: true
+        description: 'Run the build with debugging enabled' #https://github.com/marketplace/actions/debugging-with-tmate
+        required: false
         default: false
 #  schedule:
 #    - cron: 0 19 * * *
@@ -123,9 +123,10 @@ jobs:
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
-    - name: Setup tmate session(可选调试)
+    - name: Setup debugging session(可选调试)
       uses: mxschmitt/action-tmate@v3
-      if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
+      if: ${{ (github.event_name == 'workflow_dispatch' && inputs.debug_enabled) || failure() }}
+      timeout-minutes: 15
 
     - name: Compile Firmware(开始编译固件)
       id: compile
