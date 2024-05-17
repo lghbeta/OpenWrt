@@ -126,7 +126,8 @@ jobs:
     - name: Setup debugging session(可选调试)
       uses: mxschmitt/action-tmate@v3
       if: ${{ (github.event_name == 'workflow_dispatch' && inputs.debug_enabled) || failure() }}
-      timeout-minutes: 15
+      run: |
+        touch /tmp/keepalive
 
     - name: Compile Firmware(开始编译固件)
       id: compile
